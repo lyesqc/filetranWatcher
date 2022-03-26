@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kafka</groupId>
@@ -8,12 +9,12 @@
 	<packaging>pom</packaging>
 	<description>read data from file system and send it to kafka cluster</description>
 
-<properties>
-<version.usersecurity>1.0</version.usersecurity>
-<version.filetransferApp>1.0</version.filetransferApp>
-<version.filetransfer>1.0</version.filetransfer>
+	<properties>
+		<version.usersecurity>1.0.1</version.usersecurity>
+		<version.filetransferApp>1.0.1</version.filetransferApp>
+		<version.filetransfer>1.0.1</version.filetransfer>
 
-</properties>
+	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -56,7 +57,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			
+
 			<version>2.1.6.RELEASE</version>
 		</dependency>
 		<!-- Thanks for using https://jar-download.com -->
@@ -74,76 +75,16 @@
 			<artifactId>sax</artifactId>
 			<version>2.0.1</version>
 		</dependency>
-<!--  
-<dependency>
-<groupId>orf.kafka</groupId>
-			<artifactId>usersecurity</artifactId>
-			<version>${version.usersecurity}</version>
-			
-</dependency>
-		<dependency>
-		<groupId>orf.kafka</groupId>
-			<artifactId>filetransfer</artifactId>
-			<version>${version.filetransfer}</version>
-			</dependency>
-		<dependency>
-		<groupId>orf.kafka</groupId>
-			<artifactId>FiletransformerApp</artifactId>
-			<version>${version.filetransferApp}</version>
-		</dependency>
--->
 	</dependencies>
 	<modules>
 		<module>usersecurity</module>
 		<module>filetransfer</module>
 		<module>FileTransformerApp</module>
 	</modules>
-	
-	
+
+
 	<build>
-		<!-- 
-		<pluginManagement>
-			<plugins>
-			
-			 <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-        </plugin>
-			
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.1</version>
-					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		-->
-		
-		
-		
 		<plugins>
-			<!-- 
-			
-			<plugin>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-maven-plugin</artifactId>
-    <version>1.4.2.RELEASE</version>
-    <executions>
-     <execution>
-      <goals>
-       <goal>repackage</goal>
-      </goals>
-     </execution>
-    </executions>
-   </plugin>
-			 -->
-			<!-- ******************* good setting -->
-			
-			
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
@@ -193,47 +134,18 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>org.trsfrm.App</mainClass> 
+							<mainClass>org.trsfrm.App</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Class-Path>.</Class-Path>
 						</manifestEntries>
 					</archive>
- 
-					 
+
+
 				</configuration>
 			</plugin>
-			<!-- ******************* end good setting -->
-			 
-<!-- 
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-assembly-plugin</artifactId>
-    <executions>
-        <execution>
-            <phase>package</phase>
-            <goals>
-                <goal>single</goal>
-            </goals>
-            <configuration>
-                <archive>
-                <manifest>
-                    <mainClass>
-                        com.baeldung.executable.ExecutableMavenJar
-                    </mainClass>
-                </manifest>
-                </archive>
-                <descriptorRefs>
-                    <descriptorRef>jar-with-dependencies</descriptorRef>
-                </descriptorRefs>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
-			
-	 -->	
 		</plugins>
-		
+
 	</build>
 </project>
 	

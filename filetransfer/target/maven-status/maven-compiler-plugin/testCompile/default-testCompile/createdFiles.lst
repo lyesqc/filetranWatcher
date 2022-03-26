@@ -1,6 +1,0 @@
-org\trsfrm\AllTest.class
-org\trsfrm\file\parser\XmlFileParserTest.class
-org\trsfrm\file\parser\KafkaFileProducerTest.class
-org\trsfrm\file\parser\TxtFileParserTest.class
-org\trsfrm\file\parser\KafkaFileProducerTest$1.class
-org\trsfrm\file\parser\JsonFileParserTest.class

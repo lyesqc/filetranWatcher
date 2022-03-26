@@ -19,8 +19,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.trsfrm.file.attribute.IFileAttributeService;
+import org.trsfrm.file.parser.impl.XmlFileParser;
 import org.trsfrm.file.validator.IFileValidator;
-import org.trsfrm.model.FileSettingsToSend;
+import org.trsfrm.model.FileSettingsToSendDTO;
 
 public class XmlFileParserTest {
 
@@ -56,7 +57,7 @@ public class XmlFileParserTest {
 			when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[] { "a" });
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject());
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject(), Mockito.anyBoolean());
-			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSend(null, file, null));
+			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 			assertEquals(xmlFileValidatorService.getClass().getName(), xmlFileValidatorService.getClass().getName());
 
 			assertNotNull(iterator);
@@ -82,7 +83,7 @@ public class XmlFileParserTest {
 			when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[] { "a" });
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject());
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject(), Mockito.anyBoolean());
-			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSend(null, file, null));
+			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 
 			assertNotNull(iterator);
 			assertFalse(iterator.hasNext());
@@ -109,7 +110,7 @@ public class XmlFileParserTest {
 			when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[] { "b1" });
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject());
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject(), Mockito.anyBoolean());
-			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSend(null, file, null));
+			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 
 			assertNotNull(iterator);
 			assertEquals(iterator.next(), "b2=b");
@@ -138,7 +139,7 @@ public class XmlFileParserTest {
 			when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[] { "cc" });
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject());
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject(), Mockito.anyBoolean());
-			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSend(null, file, null));
+			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 
 			assertNotNull(iterator);
 			assertFalse(iterator.hasNext());
