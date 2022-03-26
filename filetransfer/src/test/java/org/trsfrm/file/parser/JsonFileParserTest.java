@@ -27,15 +27,15 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.trsfrm.file.attribute.IFileAttributeService;
+import org.trsfrm.file.parser.impl.JsonFileParser;
 import org.trsfrm.file.validator.IFileValidator;
-import org.trsfrm.model.FileSettingsToSend;
+import org.trsfrm.model.FileSettingsToSendDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.mockito.ArgumentMatchers.*;
 
 @RunWith(SpringRunner.class)
-//@ContextConfiguration(classes={FileConfig.class})
 @TestPropertySource(locations = { "classpath:application.properties" })
 public class JsonFileParserTest {
 
@@ -87,7 +87,7 @@ public class JsonFileParserTest {
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
 		
 		exception.expect(Exception.class);
-		assertNull(jsonFileParser.loadFile(new FileSettingsToSend(null, null, null)));
+		assertNull(jsonFileParser.loadFile(new FileSettingsToSendDTO(null, null, null)));
 		verify(jsonFileParser, times(1)).readBlock(anyObject());
 		verify(fileAttributeService.getAttributes(anyString()), times(1));
 		verify(fileAttributeService.getDelimitorRepositpry(anyString()), times(1));
@@ -111,7 +111,7 @@ public class JsonFileParserTest {
 		when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[]{"a"});
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject());
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
-		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSend(null, file, null));
+		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 		assertNotNull(iterator);
 		
 		assertTrue(iterator.hasNext());
@@ -139,7 +139,7 @@ public class JsonFileParserTest {
 		when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[]{"a","b"});
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject());
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
-		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSend(null, file, null));
+		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 		assertNotNull(iterator);
 		
 		assertTrue(iterator.hasNext());
@@ -166,7 +166,7 @@ public class JsonFileParserTest {
 		when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[]{"a"});
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject());
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
-		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSend(null, file, null));
+		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 		assertNotNull(iterator);
 		
 		assertTrue(iterator.hasNext());
@@ -194,7 +194,7 @@ public class JsonFileParserTest {
 		when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[]{"data","a","b"});
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject());
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
-		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSend(null, file, null));
+		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 		assertNotNull(iterator);
 		
 		assertTrue(iterator.hasNext());
@@ -228,7 +228,7 @@ public class JsonFileParserTest {
 		when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[]{"data","a","b","d","e"});
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject());
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
-		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSend(null, file, null));
+		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 		assertNotNull(iterator);
 		
 		assertTrue(iterator.hasNext());
@@ -263,7 +263,7 @@ public class JsonFileParserTest {
 		when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[]{"data","b","d","e"});
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject());
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
-		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSend(null, file, null));
+		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 		assertNull(iterator);
 		
 		
@@ -291,7 +291,7 @@ public class JsonFileParserTest {
 		when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[]{"data","a","b"});
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject());
 		doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
-		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSend(null, file, null));
+		Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 		assertNotNull(iterator);
 		assertTrue(iterator.hasNext());
 		assertEquals(iterator.next(),"c2=a");
@@ -317,7 +317,7 @@ public class JsonFileParserTest {
 			when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[]{"data","a","b"});
 			doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject());
 			doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
-			Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSend(null, file, null));
+			Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 			assertNotNull(iterator);
 			assertTrue(iterator.hasNext());
 			assertEquals(iterator.next(), "c2=a,c1=b1");
@@ -343,7 +343,7 @@ public class JsonFileParserTest {
 			when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[]{"data","a","b"});
 			doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject());
 			doReturn(true).when(jsonFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
-			Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSend(null, file, null));
+			Iterator <String> iterator = jsonFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 			assertNotNull(iterator);
 			assertTrue(iterator.hasNext());
 			assertEquals(iterator.next(), "c2=a,c1=d");

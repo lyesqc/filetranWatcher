@@ -1,8 +1,9 @@
 package org.trsfrm.file.validator;
 
-import org.trsfrm.model.FileSettingsToSend;
+import org.trsfrm.model.FileSettingsToSendDTO;
 
 public interface IFileValidator {
-	 boolean checkFileFormat(FileSettingsToSend fileSetting);
+	
+	boolean checkFileFormat(FileSettingsToSendDTO fileSetting);
 
 }

@@ -1,6 +1,5 @@
 package org.trsfrm.repository;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,42 +10,41 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.trsfrm.file.RepositoryConfig;
 import org.trsfrm.kafka.KafkaFileProducer;
-import org.trsfrm.model.KafkaSettings;
-import org.trsfrm.model.Repository;
-import org.trsfrm.utils.LoggingOutputStream;
+import org.trsfrm.model.KafkaSettingsDTO;
+import org.trsfrm.model.RepositoryDTO;
 
-//@PropertySource("classpath:application.properties")
 @Service
 public class FileWatcherLauncher implements FileWatcher {
 
+	final static Logger LOGGER = Logger.getLogger(FileWatcherLauncher.class.getName());
+
 	@Autowired
 	FileWatcherLauncher fileWatcherLauncher;
+
 	@Value("${repository.count:0}")
 	private int repositoryCount = 1;
+
 	@Autowired
 	ApplicationContext ctx;
-	@Autowired
-	Environment env;
-	Logger out = Logger.getLogger("SystemOut");
 
-	// final static Logger logger =
-	// Logger.getLogger(FileWatcherLauncher.class.getName());
+	@Autowired
+	private RepositoryConfig repositoriesConfig;
+
 	public FileWatcherLauncher() {
-		System.setOut(new PrintStream(new LoggingOutputStream(out, Level.INFO), true));
+		super();
 	}
 
 	ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(repositoryCount);
 
-	List<Repository> listRepository = new ArrayList();
+	List<RepositoryDTO> listRepository = new ArrayList();
 	private Map<String, Future> repositoriesThread = new HashMap<>();
 
 	/**
@@ -63,7 +61,7 @@ public class FileWatcherLauncher implements FileWatcher {
 		});
 	}
 
-	public void launchInspector(Repository repository) throws Exception {
+	public void launchInspector(RepositoryDTO repository) throws Exception {
 		RepositoryThreadInpector threadDirectory = (RepositoryThreadInpector) ctx
 				.getBean(RepositoryThreadInpector.class, repository, new KafkaFileProducer());
 
@@ -71,27 +69,31 @@ public class FileWatcherLauncher implements FileWatcher {
 	}
 
 	/**
-	 * load repository setting from properties file and put it in list of
-	 * repository
+	 * load repository setting from properties file and put it in list of repository
 	 */
 	@PostConstruct
 	public void loadRepository() {
 		String path;
 		String parserType;
 		String fileType;
-		String brokers;
+		String broker;
 		String topic;
-		KafkaSettings kafkaSetting;
+		KafkaSettingsDTO kafkaSetting;
 		for (int i = 1; i <= repositoryCount; i++) {
-			path = env.getProperty("repository." + i + ".directory.path");
-			fileType = env.getProperty("repository." + i + ".directory.format");
-			parserType = env.getProperty("repository." + i + ".directory.parser");
-			topic = env.getProperty("repository." + i + ".kafka.topic");
-			brokers = env.getProperty("repository." + i + ".kafka.brokers");
-			System.out.println("Parser is " + parserType + ", " + brokers);
-			kafkaSetting = KafkaSettings.bluid().withBrokers(brokers).withTopic(topic);
-			Repository repository = Repository.Build().withFileType(fileType).withParserType(parserType).withPath(path)
-					.withKaKaSetting(kafkaSetting);
+
+			path = repositoriesConfig.getDirectories().get(i).getPath();
+			fileType = repositoriesConfig.getDirectories().get(i).getFormat();
+			parserType = repositoriesConfig.getDirectories().get(i).getParser();
+			topic = repositoriesConfig.getDirectories().get(i).getTopic();
+			broker = repositoriesConfig.getDirectories().get(i).getBroker();
+
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Parser is " + parserType + ", " + broker);
+			}
+
+			kafkaSetting = KafkaSettingsDTO.bluid().withBrokers(broker).withTopic(topic);
+			RepositoryDTO repository = RepositoryDTO.Build().withFileType(fileType).withParserType(parserType)
+					.withPath(path).withKaKaSetting(kafkaSetting);
 			listRepository.add(repository);
 		}
 

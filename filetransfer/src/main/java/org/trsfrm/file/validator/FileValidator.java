@@ -2,38 +2,46 @@ package org.trsfrm.file.validator;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import javax.annotation.PostConstruct;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.trsfrm.model.FileSettingsToSend;
+import org.springframework.beans.factory.annotation.Value;
+import org.trsfrm.file.RepositoryConfig;
+import org.trsfrm.model.FileSettingsToSendDTO;
 
+public abstract class FileValidator implements IFileValidator {
 
+	private static Logger LOGGER = Logger.getLogger(FileValidator.class);
+	private static final String FILE_SEPARATOR = File.separator;
 
-
-public abstract class FileValidator implements IFileValidator{
-	
-	static Environment ctx;
-	protected static Map<String,File> listSchema = new HashMap();
-	
 	@Autowired
-	public final void setCtx(Environment ctx) {
-		this.ctx = ctx;
-	}
-	
-	public  abstract boolean checkFileFormat(FileSettingsToSend fileSetting);
-	
+	private RepositoryConfig repositoriesConfig;
+
+	@Value("${repository.count}")
+	private int repositoryCounts;
+
+	protected static Map<String, File> listSchema = new HashMap();
+
+	public abstract boolean checkFileFormat(FileSettingsToSendDTO fileSetting);
+
 	@PostConstruct
-	protected static void loadSchemas(){
-		int numerRepository = Integer.valueOf(ctx.getProperty("repository.count"));
-		System.out.println("inside File Validator "+numerRepository);
+	protected void loadSchemas() {
+
 		String fileType;
-		for(int i= 1; i<=numerRepository; i++){
-			fileType = ctx.getProperty("repository."+i+".directory.format");
-			String path = ctx.getProperty("repository."+i+".directory.path");
-			System.out.println("inside File Validator "+fileType+"||"+path);
-			File schema = new File(path+"\\conf\\schema."+fileType);
-			listSchema.put(path,schema);
+
+		for (int i = 0; i < repositoryCounts; i++) {
+			fileType = repositoriesConfig.getDirectories().get(i).getFormat();
+			String path = repositoriesConfig.getDirectories().get(i).getPath();
+
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("inside loadSchemas File Validator " + fileType + "||" + path);
+			}
+			File schema = new File(path + FILE_SEPARATOR + "conf" + FILE_SEPARATOR + "schema." + fileType);
+			listSchema.put(path, schema);
 		}
 	}
 }

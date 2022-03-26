@@ -21,8 +21,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.trsfrm.file.attribute.IFileAttributeService;
+import org.trsfrm.file.parser.impl.TxtFileParser;
 import org.trsfrm.file.validator.IFileValidator;
-import org.trsfrm.model.FileSettingsToSend;
+import org.trsfrm.model.FileSettingsToSendDTO;
 
 public class TxtFileParserTest {
 	
@@ -55,7 +56,7 @@ public class TxtFileParserTest {
 			when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[] { ";" });
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject());
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
-			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSend(null, file, null));
+			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 
 			assertNotNull(iterator);
 			assertEquals(iterator.next(), "atr1=val1,atr2=val2");
@@ -82,7 +83,7 @@ public class TxtFileParserTest {
 			when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[] { ";" });
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject());
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
-			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSend(null, file, null));
+			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 
 			assertNotNull(iterator);
 			assertFalse(iterator.hasNext());
@@ -111,7 +112,7 @@ public class TxtFileParserTest {
 			when(fileAttributeService.getDelimitorRepositpry(null)).thenReturn(new String[] { ";" });
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject());
 			doReturn(true).when(xmlFileParser).movFile(anyString(), anyObject(),Mockito.anyBoolean());
-			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSend(null, file, null));
+			Iterator<String> iterator = xmlFileParser.loadFile(new FileSettingsToSendDTO(null, file, null));
 
 			assertNotNull(iterator);
 			assertTrue(iterator.hasNext());

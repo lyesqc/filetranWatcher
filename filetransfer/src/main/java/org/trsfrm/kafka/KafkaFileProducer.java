@@ -1,33 +1,31 @@
 package org.trsfrm.kafka;
 
-import org.trsfrm.model.FileSettingsToSend;
-import org.trsfrm.repository.RepositoryThreadInpector;
-
 import java.io.File;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
+
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
-import org.trsfrm.file.FileParser;
+import org.apache.log4j.Logger;
+import org.trsfrm.file.parser.FileParser;
+import org.trsfrm.model.FileSettingsToSendDTO;
+import org.trsfrm.repository.RepositoryThreadInpector;
 
 public class KafkaFileProducer implements Callable<Integer> {
 
+	private static Logger LOGGER = Logger.getLogger(KafkaFileProducer.class);
+	private final String ERROR_PATH = "error";
 	private KafkaProducer<Long, String> producer;
 	private String topic;
-	private FileSettingsToSend fileSetting;
-	FileParser fileParser;
-	File file;
-	String valueToSend = null;
+	private FileSettingsToSendDTO fileSetting;
+	private FileParser fileParser;
+	private String valueToSend = null;
 	int resultOfSend = 0;
-	String datePattern = "yyyy_MM_dd_HH_mm";
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern(datePattern);
-	String destPath = "success";
+	private static String DATE_PATTERN = "yyyy_MM_dd_HH_mm";
+	private String destPath = "success";
 
-	public Callable<Integer> init(FileSettingsToSend fileSettingsToSend, KafkaProducer<Long, String> producer,
+	public Callable<Integer> init(FileSettingsToSendDTO fileSettingsToSend, KafkaProducer<Long, String> producer,
 			String topic) {
 		this.fileSetting = fileSettingsToSend;
 		this.producer = producer;
@@ -37,16 +35,14 @@ public class KafkaFileProducer implements Callable<Integer> {
 	}
 
 	/**
-	 * load file, and start read, it cancel sending if at least one message
-	 * cannot be sent
+	 * load file, and start read, it cancel sending if at least one message cannot
+	 * be sent
 	 */
 	@Override
 	public Integer call() {
 
 		Iterator<String> iterator = null;
-		// System.out.println("Inside handler for file :" +
-		// fileSetting.getFile().toPath());
-		String originFileName;
+
 		try {
 			iterator = fileParser.loadFile(fileSetting);
 			if (iterator == null)
@@ -55,34 +51,35 @@ public class KafkaFileProducer implements Callable<Integer> {
 				valueToSend = iterator.next();
 				if (valueToSend != null && valueToSend.length() > 0)
 					/**
-					 * call onCompleteKafkaSend method to put resultOfSend =-1
-					 * if send not done
+					 * call onCompleteKafkaSend method to put resultOfSend =-1 if send not done
 					 */
 					producer.send(new ProducerRecord<Long, String>(topic, valueToSend),
 							(meta, excep) -> onCompleteKafkaSend(meta, excep));
 			}
 		} catch (Exception e) {
 			resultOfSend = -1;
-			System.out.println(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 		}
 
 		finally {
 			if (resultOfSend == -1)
 				destPath = "error";
-			System.out.println("in finally result send is " + resultOfSend);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("in finally result send is " + resultOfSend);
+			}
+
 			if (resultOfSend == 0)
 				producer.flush();
-				RepositoryThreadInpector.untrackInpectedFile(fileSetting, datePattern.length());
+			RepositoryThreadInpector.untrackInpectedFile(fileSetting, DATE_PATTERN.length());
 			fileParser.movFile(destPath, fileSetting, true);
-			
+
 		}
 		return resultOfSend;
 	}
 
-	
 	/**
-	 * method called on finish of produccer.send, to track the data send status
-	 * put resultOfSend = -1 if error is occured when sending data
+	 * method called on finish of produccer.send, to track the data send status put
+	 * resultOfSend = -1 if error is occured when sending data
 	 * 
 	 * @param meta
 	 * @param e
@@ -91,8 +88,8 @@ public class KafkaFileProducer implements Callable<Integer> {
 	public void onCompleteKafkaSend(RecordMetadata meta, Exception e) {
 		if (meta == null) {
 			resultOfSend = -1;
-			System.out.println("Execption occured when try to send to kafka " + resultOfSend);
-			destPath = "error";
+			LOGGER.warn("Execption occured when try to send to kafka " + resultOfSend);
+			destPath = ERROR_PATH;
 		}
 	}
 

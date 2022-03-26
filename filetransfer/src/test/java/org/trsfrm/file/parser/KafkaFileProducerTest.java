@@ -9,12 +9,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeoutException;
 
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -27,9 +27,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.trsfrm.file.FileParser;
 import org.trsfrm.kafka.KafkaFileProducer;
-import org.trsfrm.model.FileSettingsToSend;
+import org.trsfrm.model.FileSettingsToSendDTO;
 
 public class KafkaFileProducerTest {
 
@@ -42,8 +41,12 @@ public class KafkaFileProducerTest {
 
 	@Test
 	public void standardSendWithSendError() throws InterruptedException, ExecutionException {
-		KafkaFileProducer kafkaThred = new KafkaFileProducer(new FileSettingsToSend(null, null, parser), producer,
-				"topic");
+		KafkaFileProducer kafkaThred = new KafkaFileProducer();
+		String path = "c:\\dataRepos\\0";
+		FileSettingsToSendDTO fileSettingsToSendDTO = new FileSettingsToSendDTO(path, Paths.get(path).toFile(), parser);
+		
+		kafkaThred.init(fileSettingsToSendDTO, producer, "topic2");
+		
 		List<String> listData = new ArrayList<String>(Arrays.asList("a"));
 		/**
 		 * mock not sending data
@@ -63,8 +66,13 @@ public class KafkaFileProducerTest {
 
 	@Test
 	public void sendOK() throws InterruptedException, ExecutionException {
-		KafkaFileProducer kafkaThred = new KafkaFileProducer(new FileSettingsToSend(null, null, parser), producer,
-				"topic");
+		KafkaFileProducer kafkaThred = new KafkaFileProducer();
+		
+		String path = "c:\\dataRepos\\0";
+		FileSettingsToSendDTO fileSettingsToSendDTO = new FileSettingsToSendDTO(path, Paths.get(path).toFile(), parser);
+		
+		kafkaThred.init(fileSettingsToSendDTO, producer, "topic2");
+		
 		List<String> listData = new ArrayList<String>(Arrays.asList("a", "b"));
 		/**
 		 * mock not sending data
@@ -83,8 +91,13 @@ public class KafkaFileProducerTest {
 
 	@Test
 	public void sendWithException() throws InterruptedException, ExecutionException {
-		KafkaFileProducer kafkaThred = new KafkaFileProducer(new FileSettingsToSend(null, null, parser), producer,
-				"topic");
+		KafkaFileProducer kafkaThred = new KafkaFileProducer();
+		
+		String path = "c:\\dataRepos\\0";
+		FileSettingsToSendDTO fileSettingsToSendDTO = new FileSettingsToSendDTO(path, Paths.get(path).toFile(), parser);
+		
+		kafkaThred.init(fileSettingsToSendDTO, producer, "topic2");
+		
 		List<String> listData = new ArrayList<String>(Arrays.asList("a", "b"));
 		/**
 		 * mock not sending data
