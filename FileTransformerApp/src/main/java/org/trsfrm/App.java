@@ -11,15 +11,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.trsfrm.file.FileConfig;
 import org.trsfrm.repository.FileWatcherLauncher;
 import org.trsfrm.security.SecurityConfig;
 import org.trsfrm.utils.LoggingOutputStream;
 
 @SpringBootApplication
-@EnableWebMvc
 @ComponentScan(basePackageClasses = { FileConfig.class, SecurityConfig.class })
+
 
 public class App implements CommandLineRunner {
 
