@@ -1,4 +1,3 @@
-target/*
-filetransfer/target/
+target/
 .settings/org.eclipse.m2e.core.prefs
-usersecurity/.settings/org.eclipse.m2e.core.prefs
+.metadata

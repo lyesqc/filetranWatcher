@@ -90,7 +90,6 @@
     </dependencyManagement>
 	
 	<modules>
-		<module>usersecurity</module>
 		<module>filetransfer</module>
 		<module>FileTransformerApp</module>
 	</modules>
