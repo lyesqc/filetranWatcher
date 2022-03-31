@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.trsfrm.file.attribute.IFileAttributeService;
 import org.trsfrm.file.parser.FileParser;
@@ -22,7 +22,7 @@ import org.trsfrm.model.FileSettingsToSendDTO;
 @Service(value="txtFile")
 public class TxtFileParser extends FileParser {
 
-	private static Logger LOGGER = Logger.getLogger(TxtFileParser.class);
+	private static Logger LOGGER = LogManager.getLogger(TxtFileParser.class);
 
 	@Autowired
 	public TxtFileParser(IFileValidator txtFileValidatorService, IFileAttributeService fileAttributeService) {

@@ -2,12 +2,12 @@ package org.trsfrm.file.validator;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.trsfrm.file.RepositoryConfig;
@@ -15,7 +15,7 @@ import org.trsfrm.model.FileSettingsToSendDTO;
 
 public abstract class FileValidator implements IFileValidator {
 
-	private static Logger LOGGER = Logger.getLogger(FileValidator.class);
+	private static Logger LOGGER = LogManager.getLogger(FileValidator.class);
 	private static final String FILE_SEPARATOR = File.separator;
 
 	@Autowired

@@ -7,21 +7,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.trsfrm.file.attribute.IFileAttributeService;
 import org.trsfrm.file.parser.FileParser;
 import org.trsfrm.file.validator.IFileValidator;
 import org.trsfrm.model.FileSettingsToSendDTO;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service(value="jsonFile")
 public class JsonFileParser extends FileParser {
 
-	private static Logger LOGGER = Logger.getLogger(JsonFileParser.class);
+	private static Logger LOGGER = LogManager.getLogger(JsonFileParser.class);
 
 	@Autowired
 	public JsonFileParser(IFileValidator jsonFileValidatorService, IFileAttributeService fileAttributeService) {

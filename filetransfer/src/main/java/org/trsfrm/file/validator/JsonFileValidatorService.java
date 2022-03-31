@@ -3,7 +3,8 @@ package org.trsfrm.file.validator;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
@@ -17,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class JsonFileValidatorService extends FileValidator {
 
-	private static Logger LOGGER = Logger.getLogger(JsonFileValidatorService.class);
+	private static Logger LOGGER = LogManager.getLogger(JsonFileValidatorService.class);
 	@Override
 	public boolean checkFileFormat(FileSettingsToSendDTO fileSetting) {
 		JSONObject jsonSchema = null;

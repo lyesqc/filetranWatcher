@@ -7,12 +7,13 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.trsfrm.model.FileSettingsToSendDTO;
 
 public class TxtFileValidatorService extends FileValidator {
 
-	private static Logger LOGGER = Logger.getLogger(TxtFileValidatorService.class);
+	private static Logger LOGGER = LogManager.getLogger(TxtFileValidatorService.class);
 
 	@Override
 	public boolean checkFileFormat(FileSettingsToSendDTO fileSetting) {

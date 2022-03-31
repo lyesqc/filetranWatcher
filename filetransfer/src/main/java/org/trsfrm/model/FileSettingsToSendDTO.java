@@ -2,7 +2,8 @@ package org.trsfrm.model;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.trsfrm.file.parser.FileParser;
 
 import lombok.Data;
@@ -10,7 +11,7 @@ import lombok.Data;
 @Data
 public class FileSettingsToSendDTO {
 
-	private static Logger LOGGER = Logger.getLogger(FileSettingsToSendDTO.class);
+	private static Logger LOGGER = LogManager.getLogger(FileSettingsToSendDTO.class);
 
 	private String diretoryPath;
 	private File file;

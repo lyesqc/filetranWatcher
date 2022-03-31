@@ -19,7 +19,8 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -33,7 +34,7 @@ import org.trsfrm.model.RepositoryDTO;
 @Scope("prototype")
 public class RepositoryThreadInpector implements Runnable {
 
-	private static Logger LOGGER = Logger.getLogger(RepositoryThreadInpector.class);
+	private static Logger LOGGER = LogManager.getLogger(RepositoryThreadInpector.class);
 	private RepositoryDTO repository;
 	private Path directory;
 	public KafkaProducer<Long, String> producer;

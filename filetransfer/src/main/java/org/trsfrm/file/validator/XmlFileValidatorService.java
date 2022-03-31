@@ -9,13 +9,14 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.trsfrm.model.FileSettingsToSendDTO;
 import org.xml.sax.SAXException;
 
 public class XmlFileValidatorService extends FileValidator {
 
-	private static Logger LOGGER = Logger.getLogger(XmlFileValidatorService.class);
+	private static Logger LOGGER = LogManager.getLogger(XmlFileValidatorService.class);
 	
 	@Override
 	public boolean checkFileFormat(FileSettingsToSendDTO fileSetting) {

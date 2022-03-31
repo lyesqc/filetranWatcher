@@ -9,7 +9,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.trsfrm.file.attribute.IFileAttributeService;
@@ -23,7 +25,7 @@ import org.xml.sax.helpers.DefaultHandler;
 @Service(value = "xmlFile")
 public class XmlFileParser extends FileParser {
 
-	private static Logger LOGGER = Logger.getLogger(XmlFileParser.class);
+	private static Logger LOGGER = LogManager.getLogger(XmlFileParser.class);
 
 	@Autowired
 	public XmlFileParser(IFileValidator xmlFileValidatorService, IFileAttributeService fileAttributeService) {

@@ -10,7 +10,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -24,7 +25,7 @@ import org.trsfrm.model.RepositoryDTO;
 @Service
 public class FileWatcherLauncher implements FileWatcher {
 
-	final static Logger LOGGER = Logger.getLogger(FileWatcherLauncher.class.getName());
+	final static Logger LOGGER = LogManager.getLogger(FileWatcherLauncher.class.getName());
 
 	@Autowired
 	FileWatcherLauncher fileWatcherLauncher;

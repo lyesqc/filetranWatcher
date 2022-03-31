@@ -7,14 +7,15 @@ import java.util.concurrent.Callable;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.trsfrm.file.parser.FileParser;
 import org.trsfrm.model.FileSettingsToSendDTO;
 import org.trsfrm.repository.RepositoryThreadInpector;
 
 public class KafkaFileProducer implements Callable<Integer> {
 
-	private static Logger LOGGER = Logger.getLogger(KafkaFileProducer.class);
+	private static Logger LOGGER = LogManager.getLogger(KafkaFileProducer.class);
 	private final String ERROR_PATH = "error";
 	private KafkaProducer<Long, String> producer;
 	private String topic;

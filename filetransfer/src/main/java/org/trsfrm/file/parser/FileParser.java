@@ -5,14 +5,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.trsfrm.file.attribute.IFileAttributeService;
 import org.trsfrm.file.validator.IFileValidator;
 import org.trsfrm.model.FileSettingsToSendDTO;
 
 public abstract class FileParser {
 
-	private static Logger LOGGER = Logger.getLogger(FileParser.class);
+	private static Logger LOGGER =LogManager.getLogger(FileParser.class);
 	private static final String DATE_FORMAT = "yyyy_MM_dd_HH_mm";
 	private final static String FILE_SEPARATOR = File.separator;
 	private final static String ERROR_DIRECTORY_NAME = "error";
